@@ -1,0 +1,88 @@
+// Variables
+$primary-color: #0056b3;
+$secondary-color: #f8f9fa;
+$text-color: #333;
+$light-text: #fff;
+$border-color: #e9ecef;
+
+// Global styles
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+// Header styles
+.app-header {
+  background-color: $primary-color;
+  color: $light-text;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    a {
+      color: $light-text;
+      text-decoration: none;
+    }
+  }
+
+  .main-nav {
+    ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-left: 1.5rem;
+    }
+
+    a {
+      color: $light-text;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: $light-text;
+        transition: width 0.3s;
+      }
+
+      &:hover:after,
+      &.active:after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Main content styles
+.app-content {
+  min-height: calc(100vh - 140px);
+  padding: 2rem 0;
+}
+
+// Footer styles
+.app-footer {
+  background-color: $secondary-color;
+  color: $text-color;
+  padding: 1rem 0;
+  border-top: 1px solid $border-color;
+  text-align: center;
+}

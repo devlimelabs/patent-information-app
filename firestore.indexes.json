@@ -1,0 +1,45 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "patents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "filing_date", "order": "DESCENDING" },
+        { "fieldPath": "grant_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "patents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classifications.code", "order": "ASCENDING" },
+        { "fieldPath": "filing_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "patents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "assignees.name", "order": "ASCENDING" },
+        { "fieldPath": "filing_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "inventors",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "name", "order": "ASCENDING" },
+        { "fieldPath": "location.country", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "assignees",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "name", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

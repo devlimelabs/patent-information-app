@@ -1,0 +1,51 @@
+{
+  "name": "edison",
+  "version": "0.0.1",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "ng lint",
+    "dev:ssr": "ng run edison:serve-ssr",
+    "serve:ssr": "node dist/edison/server/main.js",
+    "build:ssr": "ng build && ng run edison:server",
+    "prerender": "ng run edison:prerender"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/fire": "^17.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/platform-browser-dynamic": "^19.0.0",
+    "@angular/platform-server": "^19.0.0",
+    "@angular/router": "^19.0.0",
+    "@angular/ssr": "^19.0.0",
+    "express": "^4.18.2",
+    "firebase": "^9.15.0",
+    "meilisearch": "^0.30.0",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.0.0",
+    "@angular/cli": "~19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@types/express": "^4.17.21",
+    "@types/jasmine": "~5.1.4",
+    "@types/node": "^20.11.0",
+    "jasmine-core": "~5.1.1",
+    "karma": "~6.4.2",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.1",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.2"
+  }
+}

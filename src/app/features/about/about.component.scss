@@ -1,0 +1,158 @@
+// Variables
+$primary-color: #0056b3;
+$secondary-color: #f8f9fa;
+$text-color: #333;
+$light-text: #fff;
+$border-color: #e9ecef;
+
+// About header
+.about-header {
+  background: linear-gradient(135deg, $primary-color, darken($primary-color, 15%));
+  color: $light-text;
+  padding: 5rem 0;
+  text-align: center;
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+// About content
+.about-content {
+  padding: 5rem 0;
+  
+  h2 {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: $primary-color;
+    }
+  }
+  
+  p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: $text-color;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Features grid
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  
+  .feature-card {
+    background-color: $secondary-color;
+    border-radius: 8px;
+    padding: 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: $primary-color;
+    }
+    
+    p {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Data sources
+.data-sources {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  
+  li {
+    padding: 1rem 0;
+    border-bottom: 1px solid $border-color;
+    font-size: 1.1rem;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    strong {
+      color: $primary-color;
+    }
+  }
+}
+
+// CTA buttons
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  
+  .btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .about-header {
+    padding: 3rem 0;
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .lead {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .about-content {
+    padding: 3rem 0;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,276 @@
+<section class="patent-detail-container">
+  <div class="container">
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading patent information...</p>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="error" class="error-message">
+      <h2>Error</h2>
+      <p>{{ error }}</p>
+      <a routerLink="/search" class="btn btn-primary">Return to Search</a>
+    </div>
+
+    <!-- Patent detail content -->
+    <ng-container *ngIf="patent$ | async as patent">
+      <div class="patent-header">
+        <div class="patent-id">{{ patent.patent_id }}</div>
+        <h1 class="patent-title">{{ patent.title }}</h1>
+
+        <div class="patent-meta">
+          <div class="meta-item">
+            <strong>Filing Date:</strong> {{ formatDate(patent.dates.filing) }}
+          </div>
+          <div class="meta-item">
+            <strong>Publication Date:</strong>
+            {{ formatDate(patent.dates.publication) }}
+          </div>
+          <div class="meta-item">
+            <strong>Grant Date:</strong> {{ formatDate(patent.dates.grant) }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation tabs -->
+      <div class="patent-tabs">
+        <button
+          [class.active]="activeTab === 'overview'"
+          (click)="setActiveTab('overview')"
+          class="tab-button"
+        >
+          Overview
+        </button>
+        <button
+          [class.active]="activeTab === 'claims'"
+          (click)="setActiveTab('claims')"
+          class="tab-button"
+        >
+          Claims ({{ patent.claims?.length || 0 }})
+        </button>
+        <button
+          [class.active]="activeTab === 'description'"
+          (click)="setActiveTab('description')"
+          class="tab-button"
+        >
+          Description
+        </button>
+        <button
+          [class.active]="activeTab === 'classifications'"
+          (click)="setActiveTab('classifications')"
+          class="tab-button"
+        >
+          Classifications
+        </button>
+        <button
+          [class.active]="activeTab === 'similar'"
+          (click)="setActiveTab('similar')"
+          class="tab-button"
+        >
+          Similar Patents
+        </button>
+      </div>
+
+      <!-- Tab content -->
+      <div class="tab-content">
+        <!-- Overview tab -->
+        <div *ngIf="activeTab === 'overview'" class="tab-pane">
+          <div class="patent-section">
+            <h2>Abstract</h2>
+            <p class="patent-abstract">{{ patent.abstract }}</p>
+          </div>
+
+          <div class="patent-section">
+            <h2>Inventors</h2>
+            <div class="inventors-list">
+              <div
+                *ngFor="let inventor of patent.inventors"
+                class="inventor-item"
+              >
+                <div class="inventor-name">{{ inventor.name }}</div>
+                <div *ngIf="inventor.location" class="inventor-location">
+                  {{
+                    inventor.location.city ? inventor.location.city + ', ' : ''
+                  }}
+                  {{
+                    inventor.location.state
+                      ? inventor.location.state + ', '
+                      : ''
+                  }}
+                  {{ inventor.location.country }}
+                </div>
+              </div>
+              <div
+                *ngIf="!patent.inventors || patent.inventors.length === 0"
+                class="no-data"
+              >
+                No inventor information available
+              </div>
+            </div>
+          </div>
+
+          <div class="patent-section">
+            <h2>Assignees</h2>
+            <div class="assignees-list">
+              <div
+                *ngFor="let assignee of patent.assignees"
+                class="assignee-item"
+              >
+                <div class="assignee-name">{{ assignee.name }}</div>
+                <div class="assignee-type">{{ assignee.type }}</div>
+                <div *ngIf="assignee.location" class="assignee-location">
+                  {{
+                    assignee.location.city ? assignee.location.city + ', ' : ''
+                  }}
+                  {{
+                    assignee.location.state
+                      ? assignee.location.state + ', '
+                      : ''
+                  }}
+                  {{ assignee.location.country }}
+                </div>
+              </div>
+              <div
+                *ngIf="!patent.assignees || patent.assignees.length === 0"
+                class="no-data"
+              >
+                No assignee information available
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claims tab -->
+        <div *ngIf="activeTab === 'claims'" class="tab-pane">
+          <div class="patent-section">
+            <h2>Claims</h2>
+            <div class="claims-list">
+              <div *ngFor="let claim of patent.claims" class="claim-item">
+                <div class="claim-number">{{ claim.number }}.</div>
+                <div class="claim-text" [class.dependent]="claim.dependent_on">
+                  <span *ngIf="claim.dependent_on" class="dependency">
+                    The
+                    {{ claim.dependent_on === 1 ? 'method' : 'apparatus' }} of
+                    claim {{ claim.dependent_on }},
+                  </span>
+                  {{ claim.text }}
+                </div>
+              </div>
+              <div
+                *ngIf="!patent.claims || patent.claims.length === 0"
+                class="no-data"
+              >
+                No claims information available
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description tab -->
+        <div *ngIf="activeTab === 'description'" class="tab-pane">
+          <div class="patent-section">
+            <h2>Description</h2>
+            <div class="description-content">
+              <p
+                *ngIf="patent.description"
+                [innerHTML]="patent.description"
+              ></p>
+              <div *ngIf="!patent.description" class="no-data">
+                No detailed description available
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Classifications tab -->
+        <div *ngIf="activeTab === 'classifications'" class="tab-pane">
+          <div class="patent-section">
+            <h2>Classifications</h2>
+            <div class="classifications-list">
+              <div
+                *ngFor="let classification of patent.classifications"
+                class="classification-item"
+              >
+                <div class="classification-system">
+                  {{ classification.system }}
+                </div>
+                <div class="classification-code">{{ classification.code }}</div>
+                <div class="classification-description">
+                  {{ classification.description }}
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  !patent.classifications || patent.classifications.length === 0
+                "
+                class="no-data"
+              >
+                No classification information available
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Similar Patents tab -->
+        <div *ngIf="activeTab === 'similar'" class="tab-pane">
+          <div class="patent-section">
+            <h2>Similar Patents</h2>
+            <div class="similar-patents-list">
+              <div
+                *ngIf="(similarPatents$ | async)?.length === 0"
+                class="loading"
+              >
+                <div class="spinner"></div>
+                <p>Finding similar patents...</p>
+              </div>
+
+              <div
+                *ngFor="let similarPatent of similarPatents$ | async"
+                class="similar-patent-item"
+              >
+                <h3 class="similar-patent-title">
+                  <a [routerLink]="['/patent', similarPatent.patent_id]">{{
+                    similarPatent.title
+                  }}</a>
+                </h3>
+                <div class="similar-patent-id">
+                  {{ similarPatent.patent_id }}
+                </div>
+                <p class="similar-patent-abstract">
+                  {{ similarPatent.abstract }}
+                </p>
+                <div class="similar-patent-meta">
+                  <div class="meta-item">
+                    <strong>Inventors:</strong>
+                    {{ getInventorsString(similarPatent) }}
+                  </div>
+                  <div class="meta-item">
+                    <strong>Assignee:</strong>
+                    {{ getAssigneesString(similarPatent) }}
+                  </div>
+                  <div class="meta-item">
+                    <strong>Filing Date:</strong>
+                    {{ formatDate(similarPatent.dates.filing) }}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                *ngIf="(similarPatents$ | async)?.length === 0"
+                class="no-data"
+              >
+                No similar patents found
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to search button -->
+      <div class="actions">
+        <a routerLink="/search" class="btn btn-secondary">Back to Search</a>
+      </div>
+    </ng-container>
+  </div>
+</section>

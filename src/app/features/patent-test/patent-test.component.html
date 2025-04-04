@@ -1,0 +1,41 @@
+<div class="patent-test-container">
+  <h2>Patent Data Integration Test</h2>
+
+  <div class="actions">
+    <button (click)="fetchSamplePatent()" [disabled]="isLoading">
+      Fetch Sample Patent
+    </button>
+    <button (click)="fetchRecentPatents()" [disabled]="isLoading">
+      Fetch Recent Patents
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading patent data...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    <h3>Error</h3>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="integrationResult$ | async as result" class="results">
+    <h3>Integration Results</h3>
+
+    <div class="result-summary">
+      <p><strong>Success:</strong> {{ result.success ? 'Yes' : 'No' }}</p>
+      <p><strong>Total Processed:</strong> {{ result.totalProcessed }}</p>
+      <p><strong>Success Count:</strong> {{ result.successCount }}</p>
+      <p><strong>Failure Count:</strong> {{ result.failureCount }}</p>
+    </div>
+
+    <div *ngIf="result.errors && result.errors.length > 0" class="errors">
+      <h4>Errors</h4>
+      <ul>
+        <li *ngFor="let error of result.errors">
+          <strong>{{ error.patent_id }}:</strong> {{ error.error }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

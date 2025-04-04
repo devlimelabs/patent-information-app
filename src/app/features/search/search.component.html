@@ -1,0 +1,111 @@
+<section class="search-header">
+  <div class="container">
+    <h1>Patent Search</h1>
+    <p class="lead">
+      Search patents using Edison's powerful semantic search capabilities
+    </p>
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+      <div class="main-search">
+        <input
+          type="text"
+          formControlName="query"
+          placeholder="Search patents, inventors, or technologies..."
+          class="search-input"
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label for="patentType">Patent Type</label>
+          <select
+            id="patentType"
+            formControlName="patentType"
+            aria-label="Select patent type"
+          >
+            <option value="">All Types</option>
+            <option *ngFor="let type of patentTypes" [value]="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="dateRange">Date Range</label>
+          <select
+            id="dateRange"
+            formControlName="dateRange"
+            aria-label="Select date range"
+          >
+            <option value="">All Time</option>
+            <option *ngFor="let range of dateRanges" [value]="range">
+              {{ range }}
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="inventor">Inventor</label>
+          <input
+            id="inventor"
+            type="text"
+            formControlName="inventor"
+            placeholder="Inventor name"
+          />
+        </div>
+
+        <div class="filter-group">
+          <label for="assignee">Assignee</label>
+          <input
+            id="assignee"
+            type="text"
+            formControlName="assignee"
+            placeholder="Company or organization"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="search-results">
+  <div class="container">
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Searching patents...</p>
+    </div>
+
+    <div *ngIf="!isLoading && searchResults.length > 0" class="results-info">
+      <p>Showing {{ searchResults.length }} results</p>
+    </div>
+
+    <div *ngIf="!isLoading && searchResults.length === 0" class="no-results">
+      <p>No patents found matching your search criteria.</p>
+    </div>
+
+    <div class="results-list">
+      <div *ngFor="let patent of searchResults" class="patent-card">
+        <h2 class="patent-title">
+          <a [routerLink]="['/patent', patent.id]">{{ patent.title }}</a>
+        </h2>
+        <div class="patent-id">{{ patent.id }}</div>
+        <p class="patent-abstract">{{ patent.abstract }}</p>
+        <div class="patent-meta">
+          <div class="meta-item">
+            <strong>Inventors:</strong> {{ patent.inventors.join(', ') }}
+          </div>
+          <div class="meta-item">
+            <strong>Assignee:</strong> {{ patent.assignee }}
+          </div>
+          <div class="meta-item">
+            <strong>Filing Date:</strong> {{ patent.filingDate }}
+          </div>
+          <div class="meta-item">
+            <strong>Grant Date:</strong> {{ patent.grantDate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
